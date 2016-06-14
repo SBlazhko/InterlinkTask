@@ -11,25 +11,24 @@ public class InterlinkTask4
     public static void main(String[] args)
     {
         ArrayList<Long> list = new ArrayList<>();
-        fib(list, 24);
+        fib(list, 6);
 
-        for (Long i : list) { System.out.println(i); }
+        for (Long i : list) { System.out.print(i + " "); }
     }
-
 
     public static ArrayList<Long> fib(ArrayList<Long> list, int n)
     {
         long a = 1;
         long b = 1;
         long sumF = 1;
+
         if (n == 1)
         {
             list.add(a);
             return list;
         } else if (n == 2)
         {
-            list.add(a);
-            list.add(a + a);
+            list.add(a); list.add(a); list.add(a + a);
             return list;
         } else
         {
@@ -37,6 +36,8 @@ public class InterlinkTask4
             for (int i = 0; i < n; i++)
             {
                 sumF = a + b;
+                if(sumF > n){break;}
+                if(sumF == n){list.add(sumF); break;}
                 a = b;
                 b = sumF;
                 list.add(sumF);
