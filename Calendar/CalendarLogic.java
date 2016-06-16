@@ -23,6 +23,7 @@ public class CalendarLogic {
         nowDay = today.format(dm);
         int k = 0, dN = 0;
         int lastDay = today.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
+        today = today.with(TemporalAdjusters.firstDayOfMonth());
             for (int i = 0; i < 5; i++) {
                 for (int l = 0; l < 7; l++) {
                     String text = today.plusDays(k).format(dw);
@@ -38,7 +39,7 @@ public class CalendarLogic {
                 if(dN == lastDay)break;
             }
     }
-    
+
     private static LocalDate date(){
         LocalDate today = null;
         boolean exit = true;
