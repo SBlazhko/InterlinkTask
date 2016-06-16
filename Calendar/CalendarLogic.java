@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 
 /**
  * Created by BlazhkoS on 15.06.2016.
@@ -14,10 +15,12 @@ import java.time.temporal.TemporalAdjusters;
 public class CalendarLogic {
     public static Integer[][] arr = new Integer[5][7];
     public static String[] columnName = {"Пн","Вт","Ср","Чт","Пт","Сб","Нд"};
+    public static String nowDay;
 
     private static void createCalendar(LocalDate today){
         DateTimeFormatter dw = DateTimeFormatter.ofPattern("E");
         DateTimeFormatter dm = DateTimeFormatter.ofPattern("dd");
+        nowDay = today.format(dm);
         int k = 0, dN = 0;
         int lastDay = today.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
             for (int i = 0; i < 5; i++) {
@@ -35,7 +38,7 @@ public class CalendarLogic {
                 if(dN == lastDay)break;
             }
     }
-
+    
     private static LocalDate date(){
         LocalDate today = null;
         boolean exit = true;
@@ -70,6 +73,38 @@ public class CalendarLogic {
             }
         }
         return today;
+    }
+
+    public static void printCalendar(){
+        ArrayList<String> list = new ArrayList<>();
+        String cn = "";
+        for (int i = 0; i < columnName.length; i++) {
+            String s = columnName[i];
+            if(s.equalsIgnoreCase("сб") || s.equalsIgnoreCase("нд")){s = "\033[31;1m" + s + "\033[0m"; cn+=s + "  ";}
+            else cn+=s + "  ";
+        }
+//        System.out.println("\033[31;1mred text\033[0m defaulttext");
+        list.add(cn);
+        for (int i = 0; i < 5; i++) {
+            String an = "";
+            for (int j = 0; j < 7; j++) {
+                String s ="" + arr[i][j]; String ss = "";
+                if(s.equals(nowDay)) ss+= "\033[31;1m" + s + "\033[0m" + " ";
+                else if(s.equals("null"))ss += "   ";
+                else if(s.length() == 1) ss+=" " + s + " ";
+                else ss += s + " ";
+
+                if(j == 5 || j == 6) an += "\033[31;1m" + ss + "\033[0m" + " ";
+                else an += ss + " ";
+
+            }
+            list.add(an);
+        }
+
+        for (String s : list) {
+            System.out.println(s);
+        }
+
     }
 
     public static LocalDate getDate(){
